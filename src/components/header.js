@@ -57,11 +57,11 @@ class Header extends LitElement {
     return html` <header>
       <h1>Aplicación de galería 🕷️</h1>
       <nav>
-        <a href="/" data-link>Inicio</a>
-        <a href="/gallery" data-link>Galeria</a>
-        <a href="/address" data-link>Dirección</a>
-        <a href="/contact" data-link>Contacto</a>
-        <a href="/services" data-link>Servicios</a>
+        <a href="/">Inicio</a>
+        <a href="/gallery">Galeria</a>
+        <a href="/address">Dirección</a>
+        <a href="/contact">Contacto</a>
+        <a href="/services">Servicios</a>
       </nav>
     </header>`;
   }

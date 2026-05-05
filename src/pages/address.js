@@ -35,4 +35,4 @@ class AddressPage extends LitElement {
   }
 }
 
-customElements.define("my-address", AddressPage);
+customElements.define("address-page", AddressPage);

@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 
-class MyHome extends LitElement {
+class HomePage extends LitElement {
   static styles = css`
     :host {
       display: block;
@@ -105,4 +105,4 @@ class MyHome extends LitElement {
   }
 }
 
-customElements.define("home-page", MyHome);
+customElements.define("home-page", HomePage);

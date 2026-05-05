@@ -3,4 +3,7 @@ import "./components/footer.js";
 import "./components/card.js";
 import "./pages/gallery.js";
 import "./pages/home.js";
+import "./pages/contact.js";
+import "./pages/services.js";
+import "./pages/address.js";
 import "./router/router.js";

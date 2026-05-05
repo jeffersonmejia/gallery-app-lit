@@ -13,6 +13,22 @@ router.setRoutes([
     component: "gallery-page",
   },
   {
+    path: "/address",
+    component: "address-page",
+  },
+  {
+    path: "/services",
+    component: "services-page",
+  },
+  {
+    path: "/contact",
+    component: "contact-page",
+  },
+  {
+    path: "/address",
+    component: "address-page",
+  },
+  {
     path: "(.*)",
     component: "/",
   },
