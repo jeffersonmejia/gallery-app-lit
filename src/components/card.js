@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 
-class MiCard extends LitElement {
+class MyCard extends LitElement {
   static properties = {
     src: { type: String },
     title: { type: String },
@@ -52,4 +52,4 @@ class MiCard extends LitElement {
   }
 }
 
-customElements.define("my-card", MiCard);
+customElements.define("my-card", MyCard);
