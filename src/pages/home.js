@@ -14,7 +14,7 @@ class HomePage extends LitElement {
 			width: min(96%, 1400px);
 			height: 75vh;
 			overflow: hidden;
-			border-radius: 2rem;
+			border-radius: 3.5rem;
 			opacity: 0;
 			transform: scale(1.02);
 			animation: fadeIn 700ms ease-out forwards;
