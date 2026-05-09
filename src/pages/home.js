@@ -74,6 +74,7 @@ class HomePage extends LitElement {
 		if (!sessionStorage.getItem('pageSessionActive')) {
 			localStorage.removeItem('introStarted')
 			localStorage.removeItem('videoCurrentTime')
+			localStorage.removeItem('videoLastTimestamp')
 			sessionStorage.setItem('pageSessionActive', 'true')
 		}
 
@@ -90,16 +91,26 @@ class HomePage extends LitElement {
 		const introStarted = localStorage.getItem('introStarted') === 'true'
 
 		if (introStarted) {
-			const savedTime = Number(localStorage.getItem('videoCurrentTime') || 0)
-			this.playVideo(savedTime)
+			this.playVideo(this.getSyncedTime())
 		}
 	}
 
 	handleIntroStarted = (event) => {
 		const currentTime = event.detail?.currentTime ?? 0
+
 		localStorage.setItem('introStarted', 'true')
 		localStorage.setItem('videoCurrentTime', String(currentTime))
+		localStorage.setItem('videoLastTimestamp', String(Date.now()))
+
 		this.playVideo(currentTime)
+	}
+
+	getSyncedTime() {
+		const savedTime = Number(localStorage.getItem('videoCurrentTime') || 0)
+		const lastTimestamp = Number(localStorage.getItem('videoLastTimestamp') || Date.now())
+		const elapsed = (Date.now() - lastTimestamp) / 1000
+
+		return savedTime + elapsed
 	}
 
 	saveVideoTime() {
@@ -108,6 +119,7 @@ class HomePage extends LitElement {
 		if (!video) return
 
 		localStorage.setItem('videoCurrentTime', String(video.currentTime))
+		localStorage.setItem('videoLastTimestamp', String(Date.now()))
 	}
 
 	playVideo(currentTime = 0) {
@@ -115,8 +127,19 @@ class HomePage extends LitElement {
 
 		if (!video) return
 
-		video.currentTime = currentTime
-		video.play()
+		const start = () => {
+			const duration = video.duration || 0
+			const syncedTime = duration > 0 ? currentTime % duration : currentTime
+
+			video.currentTime = syncedTime
+			video.play()
+		}
+
+		if (video.readyState >= 1) {
+			start()
+		} else {
+			video.addEventListener('loadedmetadata', start, { once: true })
+		}
 	}
 
 	render() {
