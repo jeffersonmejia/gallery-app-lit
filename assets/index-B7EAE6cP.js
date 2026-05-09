@@ -11,9 +11,7 @@
 		}
 
 		h1 {
-			margin: 0 0 10px 0;
-			margin-top: 1rem;
-			margin-bottom: 1rem;
+			margin: 1rem 0;
 		}
 
 		nav {
@@ -56,16 +54,22 @@
 		a.active::after {
 			width: 0%;
 		}
-	`;get currentPath(){return window.location.pathname}getLinkClass(e){return this.currentPath===e?`active`:``}handleClick(){setTimeout(()=>{this.requestUpdate()},0)}render(){return M`
+	`;get basePath(){return window.location.hostname.includes(`github.io`)?`/gallery-app-lit`:``}get currentPath(){let e=window.location.pathname;return this.basePath&&e.startsWith(this.basePath)?e.replace(this.basePath,``)||`/`:e}getHref(e){return e===`/`?`${this.basePath}/`:`${this.basePath}${e}`}getLinkClass(e){return this.currentPath===e?`active`:``}handleClick(){setTimeout(()=>{this.requestUpdate()},0)}render(){return M`
 			<header>
+				<h1>Aplicación de galería 🕷️</h1>
+
 				<nav>
-					<a class=${this.getLinkClass(`/`)} href="/" @click=${this.handleClick}>
+					<a
+						class=${this.getLinkClass(`/`)}
+						href=${this.getHref(`/`)}
+						@click=${this.handleClick}
+					>
 						Inicio
 					</a>
 
 					<a
 						class=${this.getLinkClass(`/gallery`)}
-						href="/gallery"
+						href=${this.getHref(`/gallery`)}
 						@click=${this.handleClick}
 					>
 						Galeria
@@ -73,7 +77,7 @@
 
 					<a
 						class=${this.getLinkClass(`/address`)}
-						href="/address"
+						href=${this.getHref(`/address`)}
 						@click=${this.handleClick}
 					>
 						Dirección
@@ -81,7 +85,7 @@
 
 					<a
 						class=${this.getLinkClass(`/contact`)}
-						href="/contact"
+						href=${this.getHref(`/contact`)}
 						@click=${this.handleClick}
 					>
 						Contacto
@@ -89,7 +93,7 @@
 
 					<a
 						class=${this.getLinkClass(`/services`)}
-						href="/services"
+						href=${this.getHref(`/services`)}
 						@click=${this.handleClick}
 					>
 						Servicios
