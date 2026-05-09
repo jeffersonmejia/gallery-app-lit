@@ -56,8 +56,6 @@
 		}
 	`;get basePath(){return window.location.hostname.includes(`github.io`)?`/gallery-app-lit`:``}get currentPath(){let e=window.location.pathname;return this.basePath&&e.startsWith(this.basePath)?e.replace(this.basePath,``)||`/`:e}getHref(e){return e===`/`?`${this.basePath}/`:`${this.basePath}${e}`}getLinkClass(e){return this.currentPath===e?`active`:``}handleClick(){setTimeout(()=>{this.requestUpdate()},0)}render(){return M`
 			<header>
-				<h1>Aplicación de galería 🕷️</h1>
-
 				<nav>
 					<a
 						class=${this.getLinkClass(`/`)}
@@ -381,6 +379,12 @@
 				border-radius: 1.4rem;
 			}
 
+			.hero.expanded {
+				width: 100vw;
+				height: 100dvh;
+				border-radius: 0;
+			}
+
 			.content {
 				padding: 1.5rem;
 			}
@@ -399,7 +403,7 @@
 				filter: blur(0);
 			}
 		}
-	`;static properties={expanded:{type:Boolean},videoReady:{type:Boolean}};constructor(){super(),this.expanded=!1,this.videoReady=!1,this.videoSrc=`./video/sunflower.mp4`}connectedCallback(){super.connectedCallback(),document.addEventListener(`fullscreenchange`,this.handleFullscreenChange),document.addEventListener(`visibilitychange`,this.handleVisibilityChange)}disconnectedCallback(){document.removeEventListener(`fullscreenchange`,this.handleFullscreenChange),document.removeEventListener(`visibilitychange`,this.handleVisibilityChange),super.disconnectedCallback()}firstUpdated(){let e=this.getVideo();e&&(e.muted=!0,e.playsInline=!0,e.preload=`auto`,e.addEventListener(`loadeddata`,this.handleVideoReady),e.addEventListener(`canplay`,this.handleVideoReady),e.addEventListener(`playing`,this.handleVideoReady),e.addEventListener(`waiting`,this.handleVideoWaiting),e.addEventListener(`stalled`,this.handleVideoWaiting),e.addEventListener(`error`,this.handleVideoWaiting),this.playVideo())}getVideo(){return this.renderRoot?.querySelector(`video`)??null}handleVideoReady=()=>{this.videoReady=!0};handleVideoWaiting=()=>{this.videoReady=!1};handleFullscreenChange=()=>{this.expanded=!!document.fullscreenElement};handleVisibilityChange=()=>{document.hidden||this.playVideo()};async toggleFullscreen(){let e=this.renderRoot.querySelector(`.hero`);if(e){if(document.fullscreenElement){await document.exitFullscreen().catch(()=>{}),this.expanded=!1;return}this.expanded=!0,e.requestFullscreen&&await e.requestFullscreen().catch(()=>{this.expanded=!0})}}async playVideo(){let e=this.getVideo();if(e)try{e.muted=!0,e.playbackRate=1,await e.play(),this.videoReady=e.readyState>=2}catch{this.videoReady=!1}}render(){return M`
+	`;static properties={expanded:{type:Boolean},videoReady:{type:Boolean}};constructor(){super(),this.expanded=!1,this.videoReady=!1,this.videoSrc=`./video/sunflower.mp4`}connectedCallback(){super.connectedCallback(),document.addEventListener(`fullscreenchange`,this.handleFullscreenChange),document.addEventListener(`webkitfullscreenchange`,this.handleFullscreenChange),document.addEventListener(`visibilitychange`,this.handleVisibilityChange)}disconnectedCallback(){document.removeEventListener(`fullscreenchange`,this.handleFullscreenChange),document.removeEventListener(`webkitfullscreenchange`,this.handleFullscreenChange),document.removeEventListener(`visibilitychange`,this.handleVisibilityChange),super.disconnectedCallback()}firstUpdated(){let e=this.getVideo();e&&(e.muted=!0,e.playsInline=!0,e.preload=`auto`,e.addEventListener(`loadeddata`,this.handleVideoReady),e.addEventListener(`canplay`,this.handleVideoReady),e.addEventListener(`playing`,this.handleVideoReady),e.addEventListener(`waiting`,this.handleVideoWaiting),e.addEventListener(`stalled`,this.handleVideoWaiting),e.addEventListener(`error`,this.handleVideoWaiting),this.playVideo())}getVideo(){return this.renderRoot?.querySelector(`video`)??null}handleVideoReady=()=>{this.videoReady=!0};handleVideoWaiting=()=>{this.videoReady=!1};handleFullscreenChange=()=>{this.expanded=!!(document.fullscreenElement||document.webkitFullscreenElement)};handleVisibilityChange=()=>{document.hidden||this.playVideo()};async toggleFullscreen(){let e=this.renderRoot.querySelector(`.hero`);if(e){if(this.expanded){document.exitFullscreen&&await document.exitFullscreen().catch(()=>{}),document.webkitExitFullscreen&&document.webkitExitFullscreen(),this.expanded=!1;return}if(this.expanded=!0,e.requestFullscreen){await e.requestFullscreen().catch(()=>{});return}e.webkitRequestFullscreen&&e.webkitRequestFullscreen()}}async playVideo(){let e=this.getVideo();if(e)try{e.muted=!0,e.playbackRate=1,await e.play(),this.videoReady=e.readyState>=2}catch{this.videoReady=!1}}render(){return M`
 			<div class=${this.expanded?`hero expanded`:`hero`}>
 				<div
 					class=${this.videoReady?`poster-fallback hidden`:`poster-fallback`}
@@ -918,16 +922,15 @@
 				</section>
 
 				<section class="welcome-story">
-					<p class="story-subtitle">Miles Morales y Spider-Man</p>
+					<p class="story-subtitle">Miles Morales</p>
 
 					<h1 class="story-title">No nació listo. Aprendió a levantarse.</h1>
 
 					<p class="story-text">
-						Miles no empieza como una leyenda. Empieza con miedo, dudas y una ciudad
-						demasiado grande sobre sus hombros. Pero ahí está lo humano de su historia: no
-						necesita parecerse a nadie para ser Spider-Man. Su fuerza aparece cuando deja
-						de pedir permiso para existir y entiende que su camino también puede salvar a
-						otros.
+						No empieza como una leyenda. Empieza con miedo, dudas y una ciudad demasiado
+						grande sobre sus hombros. Pero ahí está lo humano de su historia: no necesita
+						parecerse a nadie para ser Spider-Man. Su fuerza aparece cuando deja de pedir
+						permiso para existir y entiende que su camino también puede salvar a otros.
 					</p>
 
 					<section class="story-actions">
