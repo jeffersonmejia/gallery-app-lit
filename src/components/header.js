@@ -77,8 +77,6 @@ class Header extends LitElement {
 	render() {
 		return html`
 			<header>
-				<h1>Aplicación de galería 🕷️</h1>
-
 				<nav>
 					<a class=${this.getLinkClass('/')} href="/" @click=${this.handleClick}>
 						Inicio

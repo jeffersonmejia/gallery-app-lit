@@ -187,6 +187,7 @@ class WelcomePage extends LitElement {
 	connectedCallback() {
 		super.connectedCallback()
 		document.body.style.overflowY = 'hidden'
+		localStorage.removeItem('introStarted')
 	}
 
 	disconnectedCallback() {
@@ -195,12 +196,24 @@ class WelcomePage extends LitElement {
 	}
 
 	handleContinue() {
+		localStorage.setItem('introStarted', 'true')
+
+		window.dispatchEvent(
+			new CustomEvent('intro-started', {
+				detail: {
+					currentTime: 0,
+				},
+			}),
+		)
+
 		if (!this.audio) {
 			this.audio = new Audio('./audio/sunflower.mp3')
 			this.audio.loop = true
+			this.audio.currentTime = 0
 		}
 
 		this.audio.play()
+
 		this.classList.add('closing')
 		document.body.style.overflowY = 'auto'
 
