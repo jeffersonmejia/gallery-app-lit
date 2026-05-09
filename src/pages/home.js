@@ -21,6 +21,18 @@ class HomePage extends LitElement {
 			animation: fadeIn 700ms ease-out forwards;
 		}
 
+		.hero.expanded {
+			position: fixed;
+			inset: 0;
+			z-index: 9999;
+			width: 100vw;
+			height: 100vh;
+			border-radius: 0;
+			transform: none;
+			animation: none;
+			opacity: 1;
+		}
+
 		.hero video {
 			width: 100%;
 			height: 100%;
@@ -41,16 +53,41 @@ class HomePage extends LitElement {
 		}
 
 		.content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1rem;
+
 			padding: 2rem;
 			color: white;
 			max-width: 600px;
 		}
 
 		.quote {
-			margin-top: 1rem;
 			font-size: 0.85rem;
-			opacity: 0.85;
+			opacity: 0.9;
 			font-style: italic;
+		}
+
+		.control-btn {
+			border: 0;
+			border-radius: 999px;
+			background: white;
+			color: black;
+			font-weight: 700;
+			font-size: 0.9rem;
+			padding: 0.8rem 1.4rem;
+			cursor: pointer;
+
+			backdrop-filter: blur(10px);
+
+			transition:
+				transform 180ms ease,
+				opacity 180ms ease;
+		}
+
+		.control-btn:hover {
+			transform: scale(1.04);
 		}
 
 		@media (max-width: 700px) {
@@ -61,6 +98,10 @@ class HomePage extends LitElement {
 			.hero {
 				height: 50vh;
 				border-radius: 1.4rem;
+			}
+
+			.content {
+				padding: 1.5rem;
 			}
 		}
 
@@ -79,14 +120,25 @@ class HomePage extends LitElement {
 		}
 	`
 
+	static properties = {
+		expanded: { type: Boolean },
+	}
+
+	constructor() {
+		super()
+		this.expanded = false
+	}
+
 	connectedCallback() {
 		super.connectedCallback()
 		window.addEventListener('intro-started', this.handleIntroStarted)
+		document.addEventListener('fullscreenchange', this.handleFullscreenChange)
 	}
 
 	disconnectedCallback() {
 		this.saveVideoTime()
 		window.removeEventListener('intro-started', this.handleIntroStarted)
+		document.removeEventListener('fullscreenchange', this.handleFullscreenChange)
 		super.disconnectedCallback()
 	}
 
@@ -98,6 +150,10 @@ class HomePage extends LitElement {
 		this.playVideo(this.getSyncedTime())
 	}
 
+	handleFullscreenChange = () => {
+		this.expanded = Boolean(document.fullscreenElement)
+	}
+
 	handleIntroStarted = (event) => {
 		const currentTime = event.detail?.currentTime ?? 0
 
@@ -106,6 +162,26 @@ class HomePage extends LitElement {
 		localStorage.setItem('videoLastTimestamp', String(Date.now()))
 
 		this.playVideo(currentTime)
+	}
+
+	async toggleFullscreen() {
+		const hero = this.renderRoot.querySelector('.hero')
+
+		if (!hero) return
+
+		if (document.fullscreenElement) {
+			await document.exitFullscreen().catch(() => {})
+			this.expanded = false
+			return
+		}
+
+		this.expanded = true
+
+		if (hero.requestFullscreen) {
+			await hero.requestFullscreen().catch(() => {
+				this.expanded = true
+			})
+		}
 	}
 
 	getSyncedTime() {
@@ -156,7 +232,7 @@ class HomePage extends LitElement {
 
 	render() {
 		return html`
-			<div class="hero">
+			<div class=${this.expanded ? 'hero expanded' : 'hero'}>
 				<video muted loop playsinline preload="auto">
 					<source src="/video/sunflower.mp4" type="video/mp4" />
 				</video>
@@ -164,6 +240,10 @@ class HomePage extends LitElement {
 				<div class="overlay">
 					<div class="content">
 						<div class="quote">"Solo es un salto de fé, Miles."</div>
+
+						<button class="control-btn" @click=${this.toggleFullscreen}>
+							${this.expanded ? 'Salir' : 'Expandir'}
+						</button>
 					</div>
 				</div>
 			</div>
