@@ -121,6 +121,12 @@ class HomePage extends LitElement {
 				border-radius: 1.4rem;
 			}
 
+			.hero.expanded {
+				width: 100vw;
+				height: 100dvh;
+				border-radius: 0;
+			}
+
 			.content {
 				padding: 1.5rem;
 			}
@@ -156,11 +162,13 @@ class HomePage extends LitElement {
 	connectedCallback() {
 		super.connectedCallback()
 		document.addEventListener('fullscreenchange', this.handleFullscreenChange)
+		document.addEventListener('webkitfullscreenchange', this.handleFullscreenChange)
 		document.addEventListener('visibilitychange', this.handleVisibilityChange)
 	}
 
 	disconnectedCallback() {
 		document.removeEventListener('fullscreenchange', this.handleFullscreenChange)
+		document.removeEventListener('webkitfullscreenchange', this.handleFullscreenChange)
 		document.removeEventListener('visibilitychange', this.handleVisibilityChange)
 
 		super.disconnectedCallback()
@@ -199,7 +207,9 @@ class HomePage extends LitElement {
 	}
 
 	handleFullscreenChange = () => {
-		this.expanded = Boolean(document.fullscreenElement)
+		this.expanded = Boolean(
+			document.fullscreenElement || document.webkitFullscreenElement,
+		)
 	}
 
 	handleVisibilityChange = () => {
@@ -213,8 +223,15 @@ class HomePage extends LitElement {
 
 		if (!hero) return
 
-		if (document.fullscreenElement) {
-			await document.exitFullscreen().catch(() => {})
+		if (this.expanded) {
+			if (document.exitFullscreen) {
+				await document.exitFullscreen().catch(() => {})
+			}
+
+			if (document.webkitExitFullscreen) {
+				document.webkitExitFullscreen()
+			}
+
 			this.expanded = false
 			return
 		}
@@ -222,9 +239,12 @@ class HomePage extends LitElement {
 		this.expanded = true
 
 		if (hero.requestFullscreen) {
-			await hero.requestFullscreen().catch(() => {
-				this.expanded = true
-			})
+			await hero.requestFullscreen().catch(() => {})
+			return
+		}
+
+		if (hero.webkitRequestFullscreen) {
+			hero.webkitRequestFullscreen()
 		}
 	}
 

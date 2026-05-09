@@ -225,16 +225,15 @@ class WelcomePage extends LitElement {
 				</section>
 
 				<section class="welcome-story">
-					<p class="story-subtitle">Miles Morales y Spider-Man</p>
+					<p class="story-subtitle">Miles Morales</p>
 
 					<h1 class="story-title">No nació listo. Aprendió a levantarse.</h1>
 
 					<p class="story-text">
-						Miles no empieza como una leyenda. Empieza con miedo, dudas y una ciudad
-						demasiado grande sobre sus hombros. Pero ahí está lo humano de su historia: no
-						necesita parecerse a nadie para ser Spider-Man. Su fuerza aparece cuando deja
-						de pedir permiso para existir y entiende que su camino también puede salvar a
-						otros.
+						No empieza como una leyenda. Empieza con miedo, dudas y una ciudad demasiado
+						grande sobre sus hombros. Pero ahí está lo humano de su historia: no necesita
+						parecerse a nadie para ser Spider-Man. Su fuerza aparece cuando deja de pedir
+						permiso para existir y entiende que su camino también puede salvar a otros.
 					</p>
 
 					<section class="story-actions">
