@@ -51,8 +51,7 @@ class GalleryPage extends LitElement {
 	static styles = css`
 		:host {
 			display: block;
-			padding: 20px;
-			margin-top: 20px;
+			padding: 0 20px;
 			overflow: hidden;
 		}
 
@@ -133,7 +132,12 @@ class GalleryPage extends LitElement {
 				filter: blur(0);
 			}
 		}
-
+		h1 {
+			grid-column: 1/-1;
+			margin: 0;
+			text-align: center;
+			font-size: 2.5rem;
+		}
 		@media (max-width: 700px) {
 			:host {
 				padding: 16px;
@@ -150,6 +154,7 @@ class GalleryPage extends LitElement {
 	render() {
 		return html`
 			<div class="galeria">
+				<h1>Cronología</h1>
 				${this.elements.map(
 					(element) => html`
 						<div class="gallery-item">

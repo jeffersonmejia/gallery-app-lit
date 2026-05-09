@@ -3,14 +3,18 @@ import { LitElement, html, css } from 'lit'
 class HomePage extends LitElement {
 	static styles = css`
 		:host {
-			display: block;
+			display: flex;
+			justify-content: center;
+			padding: 0 2rem;
 			overflow: hidden;
 		}
 
 		.hero {
 			position: relative;
+			width: min(96%, 1400px);
 			height: 75vh;
 			overflow: hidden;
+			border-radius: 2rem;
 
 			opacity: 0;
 			transform: scale(1.02);
@@ -29,6 +33,7 @@ class HomePage extends LitElement {
 			position: absolute;
 			inset: 0;
 			background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.2));
+
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -49,8 +54,13 @@ class HomePage extends LitElement {
 		}
 
 		@media (max-width: 700px) {
+			:host {
+				padding: 1rem;
+			}
+
 			.hero {
 				height: 50vh;
+				border-radius: 1.4rem;
 			}
 		}
 
@@ -60,6 +70,7 @@ class HomePage extends LitElement {
 				transform: scale(1.06);
 				filter: blur(6px);
 			}
+
 			to {
 				opacity: 1;
 				transform: scale(1.02);
@@ -70,14 +81,6 @@ class HomePage extends LitElement {
 
 	connectedCallback() {
 		super.connectedCallback()
-
-		if (!sessionStorage.getItem('pageSessionActive')) {
-			localStorage.removeItem('introStarted')
-			localStorage.removeItem('videoCurrentTime')
-			localStorage.removeItem('videoLastTimestamp')
-			sessionStorage.setItem('pageSessionActive', 'true')
-		}
-
 		window.addEventListener('intro-started', this.handleIntroStarted)
 	}
 
@@ -88,17 +91,17 @@ class HomePage extends LitElement {
 	}
 
 	firstUpdated() {
-		const introStarted = localStorage.getItem('introStarted') === 'true'
+		const continued = localStorage.getItem('continued') === 'true'
 
-		if (introStarted) {
-			this.playVideo(this.getSyncedTime())
-		}
+		if (!continued) return
+
+		this.playVideo(this.getSyncedTime())
 	}
 
 	handleIntroStarted = (event) => {
 		const currentTime = event.detail?.currentTime ?? 0
 
-		localStorage.setItem('introStarted', 'true')
+		localStorage.setItem('continued', 'true')
 		localStorage.setItem('videoCurrentTime', String(currentTime))
 		localStorage.setItem('videoLastTimestamp', String(Date.now()))
 
@@ -114,15 +117,19 @@ class HomePage extends LitElement {
 	}
 
 	saveVideoTime() {
-		const video = this.renderRoot.querySelector('video')
+		const continued = localStorage.getItem('continued') === 'true'
 
-		if (!video) return
+		if (!continued) return
 
-		localStorage.setItem('videoCurrentTime', String(video.currentTime))
+		localStorage.setItem('videoCurrentTime', String(this.getSyncedTime()))
 		localStorage.setItem('videoLastTimestamp', String(Date.now()))
 	}
 
 	playVideo(currentTime = 0) {
+		const continued = localStorage.getItem('continued') === 'true'
+
+		if (!continued) return
+
 		const video = this.renderRoot.querySelector('video')
 
 		if (!video) return
@@ -132,7 +139,12 @@ class HomePage extends LitElement {
 			const syncedTime = duration > 0 ? currentTime % duration : currentTime
 
 			video.currentTime = syncedTime
-			video.play()
+
+			const promise = video.play()
+
+			if (promise) {
+				promise.catch(() => {})
+			}
 		}
 
 		if (video.readyState >= 1) {

@@ -131,6 +131,7 @@ class WelcomePage extends LitElement {
 				opacity: 0;
 				transform: translateX(-1rem) scale(1.08);
 			}
+
 			to {
 				opacity: 1;
 				transform: translateX(0) scale(1.03);
@@ -142,6 +143,7 @@ class WelcomePage extends LitElement {
 				opacity: 0;
 				transform: translateY(1rem);
 			}
+
 			to {
 				opacity: 1;
 				transform: translateY(0);
@@ -186,8 +188,11 @@ class WelcomePage extends LitElement {
 
 	connectedCallback() {
 		super.connectedCallback()
+
+		localStorage.clear()
+		localStorage.setItem('continued', 'false')
+
 		document.body.style.overflowY = 'hidden'
-		localStorage.removeItem('introStarted')
 	}
 
 	disconnectedCallback() {
@@ -196,7 +201,9 @@ class WelcomePage extends LitElement {
 	}
 
 	handleContinue() {
-		localStorage.setItem('introStarted', 'true')
+		localStorage.setItem('continued', 'true')
+		localStorage.setItem('videoCurrentTime', '0')
+		localStorage.setItem('videoLastTimestamp', String(Date.now()))
 
 		window.dispatchEvent(
 			new CustomEvent('intro-started', {
