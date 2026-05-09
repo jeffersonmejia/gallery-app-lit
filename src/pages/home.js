@@ -15,10 +15,10 @@ class HomePage extends LitElement {
 			height: 75vh;
 			overflow: hidden;
 			border-radius: 2rem;
-
 			opacity: 0;
 			transform: scale(1.02);
 			animation: fadeIn 700ms ease-out forwards;
+			background: black;
 		}
 
 		.hero.expanded {
@@ -33,7 +33,10 @@ class HomePage extends LitElement {
 			opacity: 1;
 		}
 
-		.hero video {
+		.hero video,
+		.poster-fallback {
+			position: absolute;
+			inset: 0;
 			width: 100%;
 			height: 100%;
 			object-fit: cover;
@@ -41,15 +44,36 @@ class HomePage extends LitElement {
 			display: block;
 		}
 
+		.hero video {
+			opacity: 0;
+			transition: opacity 220ms ease;
+		}
+
+		.hero video.ready {
+			opacity: 1;
+		}
+
+		.poster-fallback {
+			background-image: url('./img/cover_home.jpg');
+			background-size: cover;
+			background-position: center;
+			opacity: 1;
+			transition: opacity 220ms ease;
+		}
+
+		.poster-fallback.hidden {
+			opacity: 0;
+		}
+
 		.overlay {
 			position: absolute;
 			inset: 0;
 			background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.2));
-
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			text-align: center;
+			z-index: 2;
 		}
 
 		.content {
@@ -57,7 +81,6 @@ class HomePage extends LitElement {
 			flex-direction: column;
 			align-items: center;
 			gap: 1rem;
-
 			padding: 2rem;
 			color: white;
 			max-width: 600px;
@@ -78,9 +101,7 @@ class HomePage extends LitElement {
 			font-size: 0.9rem;
 			padding: 0.8rem 1.4rem;
 			cursor: pointer;
-
 			backdrop-filter: blur(10px);
-
 			transition:
 				transform 180ms ease,
 				opacity 180ms ease;
@@ -122,46 +143,69 @@ class HomePage extends LitElement {
 
 	static properties = {
 		expanded: { type: Boolean },
+		videoReady: { type: Boolean },
 	}
 
 	constructor() {
 		super()
 		this.expanded = false
+		this.videoReady = false
+		this.videoSrc = './video/sunflower.mp4'
 	}
 
 	connectedCallback() {
 		super.connectedCallback()
-		window.addEventListener('intro-started', this.handleIntroStarted)
 		document.addEventListener('fullscreenchange', this.handleFullscreenChange)
+		document.addEventListener('visibilitychange', this.handleVisibilityChange)
 	}
 
 	disconnectedCallback() {
-		this.saveVideoTime()
-		window.removeEventListener('intro-started', this.handleIntroStarted)
 		document.removeEventListener('fullscreenchange', this.handleFullscreenChange)
+		document.removeEventListener('visibilitychange', this.handleVisibilityChange)
+
 		super.disconnectedCallback()
 	}
 
 	firstUpdated() {
-		const continued = localStorage.getItem('continued') === 'true'
+		const video = this.getVideo()
 
-		if (!continued) return
+		if (!video) return
 
-		this.playVideo(this.getSyncedTime())
+		video.muted = true
+		video.playsInline = true
+		video.preload = 'auto'
+
+		video.addEventListener('loadeddata', this.handleVideoReady)
+		video.addEventListener('canplay', this.handleVideoReady)
+		video.addEventListener('playing', this.handleVideoReady)
+
+		video.addEventListener('waiting', this.handleVideoWaiting)
+		video.addEventListener('stalled', this.handleVideoWaiting)
+		video.addEventListener('error', this.handleVideoWaiting)
+
+		this.playVideo()
+	}
+
+	getVideo() {
+		return this.renderRoot?.querySelector('video') ?? null
+	}
+
+	handleVideoReady = () => {
+		this.videoReady = true
+	}
+
+	handleVideoWaiting = () => {
+		this.videoReady = false
 	}
 
 	handleFullscreenChange = () => {
 		this.expanded = Boolean(document.fullscreenElement)
 	}
 
-	handleIntroStarted = (event) => {
-		const currentTime = event.detail?.currentTime ?? 0
-
-		localStorage.setItem('continued', 'true')
-		localStorage.setItem('videoCurrentTime', String(currentTime))
-		localStorage.setItem('videoLastTimestamp', String(Date.now()))
-
-		this.playVideo(currentTime)
+	handleVisibilityChange = () => {
+		if (!document.hidden) {
+			this.playVideo()
+		}
 	}
 
 	async toggleFullscreen() {
@@ -184,57 +228,37 @@ class HomePage extends LitElement {
 		}
 	}
 
-	getSyncedTime() {
-		const savedTime = Number(localStorage.getItem('videoCurrentTime') || 0)
-		const lastTimestamp = Number(localStorage.getItem('videoLastTimestamp') || Date.now())
-		const elapsed = (Date.now() - lastTimestamp) / 1000
-
-		return savedTime + elapsed
-	}
-
-	saveVideoTime() {
-		const continued = localStorage.getItem('continued') === 'true'
-
-		if (!continued) return
-
-		localStorage.setItem('videoCurrentTime', String(this.getSyncedTime()))
-		localStorage.setItem('videoLastTimestamp', String(Date.now()))
-	}
-
-	playVideo(currentTime = 0) {
-		const continued = localStorage.getItem('continued') === 'true'
-
-		if (!continued) return
-
-		const video = this.renderRoot.querySelector('video')
+	async playVideo() {
+		const video = this.getVideo()
 
 		if (!video) return
 
-		const start = () => {
-			const duration = video.duration || 0
-			const syncedTime = duration > 0 ? currentTime % duration : currentTime
-
-			video.currentTime = syncedTime
-
-			const promise = video.play()
-
-			if (promise) {
-				promise.catch(() => {})
-			}
-		}
-
-		if (video.readyState >= 1) {
-			start()
-		} else {
-			video.addEventListener('loadedmetadata', start, { once: true })
+		try {
+			video.muted = true
+			video.playbackRate = 1
+			await video.play()
+			this.videoReady = video.readyState >= 2
+		} catch {
+			this.videoReady = false
 		}
 	}
 
 	render() {
 		return html`
 			<div class=${this.expanded ? 'hero expanded' : 'hero'}>
-				<video muted loop playsinline preload="auto">
-					<source src="/video/sunflower.mp4" type="video/mp4" />
+				<div
+					class=${this.videoReady ? 'poster-fallback hidden' : 'poster-fallback'}
+				></div>
+
+				<video
+					class=${this.videoReady ? 'ready' : ''}
+					muted
+					loop
+					playsinline
+					preload="auto"
+					poster="./img/cover_home.jpg"
+				>
+					<source src=${this.videoSrc} type="video/mp4" />
 				</video>
 
 				<div class="overlay">

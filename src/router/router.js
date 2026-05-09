@@ -1,37 +1,35 @@
-import { Router } from "@vaadin/router";
+import { Router } from '@vaadin/router'
 
-const outlet = document.getElementById("app"),
-  router = new Router(outlet);
+const outlet = document.getElementById('app')
+const router = new Router(outlet)
+
+const base = window.location.hostname.includes('github.io') ? '/gallery-app-lit' : ''
 
 router.setRoutes([
-  {
-    path: "/",
-    component: "home-page",
-  },
-  {
-    path: "/gallery",
-    component: "gallery-page",
-  },
-  {
-    path: "/address",
-    component: "address-page",
-  },
-  {
-    path: "/services",
-    component: "services-page",
-  },
-  {
-    path: "/contact",
-    component: "contact-page",
-  },
-  {
-    path: "/address",
-    component: "address-page",
-  },
-  {
-    path: "(.*)",
-    component: "/",
-  },
-]);
+	{
+		path: `${base}/`,
+		component: 'home-page',
+	},
+	{
+		path: `${base}/gallery`,
+		component: 'gallery-page',
+	},
+	{
+		path: `${base}/address`,
+		component: 'address-page',
+	},
+	{
+		path: `${base}/services`,
+		component: 'services-page',
+	},
+	{
+		path: `${base}/contact`,
+		component: 'contact-page',
+	},
+	{
+		path: '(.*)',
+		redirect: `${base}/`,
+	},
+])
 
-export { router };
+export { router }

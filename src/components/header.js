@@ -13,9 +13,7 @@ class Header extends LitElement {
 		}
 
 		h1 {
-			margin: 0 0 10px 0;
-			margin-top: 1rem;
-			margin-bottom: 1rem;
+			margin: 1rem 0;
 		}
 
 		nav {
@@ -60,8 +58,26 @@ class Header extends LitElement {
 		}
 	`
 
+	get basePath() {
+		return window.location.hostname.includes('github.io') ? '/gallery-app-lit' : ''
+	}
+
 	get currentPath() {
-		return window.location.pathname
+		const path = window.location.pathname
+
+		if (this.basePath && path.startsWith(this.basePath)) {
+			return path.replace(this.basePath, '') || '/'
+		}
+
+		return path
+	}
+
+	getHref(path) {
+		if (path === '/') {
+			return `${this.basePath}/`
+		}
+
+		return `${this.basePath}${path}`
 	}
 
 	getLinkClass(path) {
@@ -77,14 +93,20 @@ class Header extends LitElement {
 	render() {
 		return html`
 			<header>
+				<h1>Aplicación de galería 🕷️</h1>
+
 				<nav>
-					<a class=${this.getLinkClass('/')} href="/" @click=${this.handleClick}>
+					<a
+						class=${this.getLinkClass('/')}
+						href=${this.getHref('/')}
+						@click=${this.handleClick}
+					>
 						Inicio
 					</a>
 
 					<a
 						class=${this.getLinkClass('/gallery')}
-						href="/gallery"
+						href=${this.getHref('/gallery')}
 						@click=${this.handleClick}
 					>
 						Galeria
@@ -92,7 +114,7 @@ class Header extends LitElement {
 
 					<a
 						class=${this.getLinkClass('/address')}
-						href="/address"
+						href=${this.getHref('/address')}
 						@click=${this.handleClick}
 					>
 						Dirección
@@ -100,7 +122,7 @@ class Header extends LitElement {
 
 					<a
 						class=${this.getLinkClass('/contact')}
-						href="/contact"
+						href=${this.getHref('/contact')}
 						@click=${this.handleClick}
 					>
 						Contacto
@@ -108,7 +130,7 @@ class Header extends LitElement {
 
 					<a
 						class=${this.getLinkClass('/services')}
-						href="/services"
+						href=${this.getHref('/services')}
 						@click=${this.handleClick}
 					>
 						Servicios

@@ -188,30 +188,16 @@ class WelcomePage extends LitElement {
 
 	connectedCallback() {
 		super.connectedCallback()
-
-		localStorage.clear()
-		localStorage.setItem('continued', 'false')
-
 		document.body.style.overflowY = 'hidden'
 	}
 
 	disconnectedCallback() {
-		super.disconnectedCallback()
 		document.body.style.overflowY = 'auto'
+		super.disconnectedCallback()
 	}
 
 	handleContinue() {
-		localStorage.setItem('continued', 'true')
-		localStorage.setItem('videoCurrentTime', '0')
-		localStorage.setItem('videoLastTimestamp', String(Date.now()))
-
-		window.dispatchEvent(
-			new CustomEvent('intro-started', {
-				detail: {
-					currentTime: 0,
-				},
-			}),
-		)
+		window.dispatchEvent(new CustomEvent('intro-started'))
 
 		if (!this.audio) {
 			this.audio = new Audio('./audio/sunflower.mp3')
@@ -219,7 +205,7 @@ class WelcomePage extends LitElement {
 			this.audio.currentTime = 0
 		}
 
-		this.audio.play()
+		this.audio.play().catch(() => {})
 
 		this.classList.add('closing')
 		document.body.style.overflowY = 'auto'
