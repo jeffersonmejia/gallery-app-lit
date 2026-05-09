@@ -143,7 +143,7 @@
         <h3>${this.title}</h3>
         <p>${this.description}</p>
       </div>
-    </div>`}};customElements.define(`my-card`,ke);var Ae=class extends R{get elements(){return[{src:`/img/movies/spider_2026.png`,title:`Spider Man Brand New Day, 2026`,description:`Nueva entrega del universo cinematografico donde se plantea una etapa distinta para Peter Parker tras eventos previos que redefinen su identidad y su rol como heroe`},{src:`/img/movies/spider_2019.png`,title:`Spider Man Far From Home, 2019`,description:`Historia donde Peter Parker enfrenta amenazas internacionales mientras intenta mantener una vida normal durante un viaje escolar en Europa`},{src:`/img/movies/spider_2018.png`,title:`Spider Man Into the Spider Verse, 2018`,description:`Película animada centrada en Miles Morales que introduce el multiverso y diferentes versiones del heroe`},{src:`/img/movies/spider_2012.png`,title:`The Amazing Spider Man, 2012`,description:`Reinicio que presenta una versión más moderna del personaje explorando su pasado y su relación con Gwen Stacy junto a un enfoque más científico`},{src:`/img/movies/spider_2007.png`,title:`Spider Man 3, 2007`,description:`Entrega que desarrolla conflictos internos del protagonista al ser influenciado por el simbionte mientras enfrenta nuevos enemigos`},{src:`/img/movies/spider_2004.png`,title:`Spider Man 2, 2004`,description:`Película que profundiza en el equilibrio entre la vida personal de Peter Parker y su responsabilidad como superheroe frente a Doctor Octopus`},{src:`/img/movies/spider_2002.png`,title:`Spider Man, 2002`,description:`Origen del personaje donde se presenta la transformación de Peter Parker y su primera gran prueba como heroe frente al Duende Verde`}]}static styles=o`
+    </div>`}};customElements.define(`my-card`,ke);var Ae=class extends R{get elements(){return[{src:`./img/movies/spider_2026.png`,title:`Spider Man Brand New Day, 2026`,description:`Nueva entrega del universo cinematografico donde se plantea una etapa distinta para Peter Parker tras eventos previos que redefinen su identidad y su rol como heroe`},{src:`./img/movies/spider_2019.png`,title:`Spider Man Far From Home, 2019`,description:`Historia donde Peter Parker enfrenta amenazas internacionales mientras intenta mantener una vida normal durante un viaje escolar en Europa`},{src:`./img/movies/spider_2018.png`,title:`Spider Man Into the Spider Verse, 2018`,description:`Película animada centrada en Miles Morales que introduce el multiverso y diferentes versiones del heroe`},{src:`./img/movies/spider_2012.png`,title:`The Amazing Spider Man, 2012`,description:`Reinicio que presenta una versión más moderna del personaje explorando su pasado y su relación con Gwen Stacy junto a un enfoque más científico`},{src:`./img/movies/spider_2007.png`,title:`Spider Man 3, 2007`,description:`Entrega que desarrolla conflictos internos del protagonista al ser influenciado por el simbionte mientras enfrenta nuevos enemigos`},{src:`./img/movies/spider_2004.png`,title:`Spider Man 2, 2004`,description:`Película que profundiza en el equilibrio entre la vida personal de Peter Parker y su responsabilidad como superheroe frente a Doctor Octopus`},{src:`./img/movies/spider_2002.png`,title:`Spider Man, 2002`,description:`Origen del personaje donde se presenta la transformación de Peter Parker y su primera gran prueba como heroe frente al Duende Verde`}]}static styles=o`
 		:host {
 			display: block;
 			padding: 0 20px;
@@ -265,16 +265,20 @@
 			overflow: hidden;
 		}
 
+		:host([hidden]) {
+			display: none;
+		}
+
 		.hero {
 			position: relative;
 			width: min(96%, 1400px);
 			height: 75vh;
 			overflow: hidden;
 			border-radius: 2rem;
-
 			opacity: 0;
 			transform: scale(1.02);
 			animation: fadeIn 700ms ease-out forwards;
+			background: black;
 		}
 
 		.hero.expanded {
@@ -289,7 +293,10 @@
 			opacity: 1;
 		}
 
-		.hero video {
+		.hero video,
+		.poster-fallback {
+			position: absolute;
+			inset: 0;
 			width: 100%;
 			height: 100%;
 			object-fit: cover;
@@ -297,15 +304,36 @@
 			display: block;
 		}
 
+		.hero video {
+			opacity: 0;
+			transition: opacity 220ms ease;
+		}
+
+		.hero video.ready {
+			opacity: 1;
+		}
+
+		.poster-fallback {
+			background-image: url('./img/cover_home.jpg');
+			background-size: cover;
+			background-position: center;
+			opacity: 1;
+			transition: opacity 220ms ease;
+		}
+
+		.poster-fallback.hidden {
+			opacity: 0;
+		}
+
 		.overlay {
 			position: absolute;
 			inset: 0;
 			background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.2));
-
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			text-align: center;
+			z-index: 2;
 		}
 
 		.content {
@@ -313,7 +341,6 @@
 			flex-direction: column;
 			align-items: center;
 			gap: 1rem;
-
 			padding: 2rem;
 			color: white;
 			max-width: 600px;
@@ -334,9 +361,7 @@
 			font-size: 0.9rem;
 			padding: 0.8rem 1.4rem;
 			cursor: pointer;
-
 			backdrop-filter: blur(10px);
-
 			transition:
 				transform 180ms ease,
 				opacity 180ms ease;
@@ -374,10 +399,21 @@
 				filter: blur(0);
 			}
 		}
-	`;static properties={expanded:{type:Boolean}};constructor(){super(),this.expanded=!1}connectedCallback(){super.connectedCallback(),window.addEventListener(`intro-started`,this.handleIntroStarted),document.addEventListener(`fullscreenchange`,this.handleFullscreenChange)}disconnectedCallback(){this.saveVideoTime(),window.removeEventListener(`intro-started`,this.handleIntroStarted),document.removeEventListener(`fullscreenchange`,this.handleFullscreenChange),super.disconnectedCallback()}firstUpdated(){localStorage.getItem(`continued`)===`true`&&this.playVideo(this.getSyncedTime())}handleFullscreenChange=()=>{this.expanded=!!document.fullscreenElement};handleIntroStarted=e=>{let t=e.detail?.currentTime??0;localStorage.setItem(`continued`,`true`),localStorage.setItem(`videoCurrentTime`,String(t)),localStorage.setItem(`videoLastTimestamp`,String(Date.now())),this.playVideo(t)};async toggleFullscreen(){let e=this.renderRoot.querySelector(`.hero`);if(e){if(document.fullscreenElement){await document.exitFullscreen().catch(()=>{}),this.expanded=!1;return}this.expanded=!0,e.requestFullscreen&&await e.requestFullscreen().catch(()=>{this.expanded=!0})}}getSyncedTime(){let e=Number(localStorage.getItem(`videoCurrentTime`)||0),t=Number(localStorage.getItem(`videoLastTimestamp`)||Date.now());return e+(Date.now()-t)/1e3}saveVideoTime(){localStorage.getItem(`continued`)===`true`&&(localStorage.setItem(`videoCurrentTime`,String(this.getSyncedTime())),localStorage.setItem(`videoLastTimestamp`,String(Date.now())))}playVideo(e=0){if(localStorage.getItem(`continued`)!==`true`)return;let t=this.renderRoot.querySelector(`video`);if(!t)return;let n=()=>{let n=t.duration||0;t.currentTime=n>0?e%n:e;let r=t.play();r&&r.catch(()=>{})};t.readyState>=1?n():t.addEventListener(`loadedmetadata`,n,{once:!0})}render(){return M`
+	`;static properties={expanded:{type:Boolean},videoReady:{type:Boolean},started:{type:Boolean}};constructor(){super(),this.expanded=!1,this.videoReady=!1,this.started=!1,this.videoSrc=`./video/sunflower.mp4`}connectedCallback(){super.connectedCallback(),window.addEventListener(`intro-started`,this.handleIntroStarted),document.addEventListener(`fullscreenchange`,this.handleFullscreenChange),document.addEventListener(`visibilitychange`,this.handleVisibilityChange)}disconnectedCallback(){window.removeEventListener(`intro-started`,this.handleIntroStarted),document.removeEventListener(`fullscreenchange`,this.handleFullscreenChange),document.removeEventListener(`visibilitychange`,this.handleVisibilityChange),super.disconnectedCallback()}firstUpdated(){let e=this.getVideo();e&&(e.muted=!0,e.playsInline=!0,e.preload=`metadata`,e.addEventListener(`loadeddata`,this.handleVideoReady),e.addEventListener(`canplay`,this.handleVideoReady),e.addEventListener(`playing`,this.handleVideoReady),e.addEventListener(`waiting`,this.handleVideoWaiting),e.addEventListener(`stalled`,this.handleVideoWaiting),e.addEventListener(`error`,this.handleVideoWaiting))}getVideo(){return this.renderRoot?.querySelector(`video`)??null}handleIntroStarted=()=>{this.started=!0,this.videoReady=!1,this.playVideo()};handleVideoReady=()=>{this.started&&(this.videoReady=!0)};handleVideoWaiting=()=>{this.started&&(this.videoReady=!1)};handleFullscreenChange=()=>{this.expanded=!!document.fullscreenElement};handleVisibilityChange=()=>{!document.hidden&&this.started&&this.playVideo()};async toggleFullscreen(){let e=this.renderRoot.querySelector(`.hero`);if(e){if(document.fullscreenElement){await document.exitFullscreen().catch(()=>{}),this.expanded=!1;return}this.expanded=!0,e.requestFullscreen&&await e.requestFullscreen().catch(()=>{this.expanded=!0})}}async playVideo(){if(!this.started)return;let e=this.getVideo();if(e)try{e.muted=!0,e.playbackRate=1,e.preload=`auto`,await e.play(),this.videoReady=e.readyState>=2}catch{this.videoReady=!1}}render(){return M`
 			<div class=${this.expanded?`hero expanded`:`hero`}>
-				<video muted loop playsinline preload="auto">
-					<source src="/video/sunflower.mp4" type="video/mp4" />
+				<div
+					class=${this.videoReady?`poster-fallback hidden`:`poster-fallback`}
+				></div>
+
+				<video
+					class=${this.videoReady?`ready`:``}
+					muted
+					loop
+					playsinline
+					preload="metadata"
+					poster="./img/cover_home.jpg"
+				>
+					<source src=${this.videoSrc} type="video/mp4" />
 				</video>
 
 				<div class="overlay">
@@ -390,7 +426,7 @@
 					</div>
 				</div>
 			</div>
-		`}};customElements.define(`home-page`,je);var Me=class extends R{static styles=o`
+		`}};customElements.get(`home-page`)||customElements.define(`home-page`,je);var Me=class extends R{static styles=o`
     <style > :host {
       display: block;
       overflow: hidden;
@@ -873,7 +909,7 @@
 				width: 100%;
 			}
 		}
-	`;audio=null;connectedCallback(){super.connectedCallback(),localStorage.clear(),localStorage.setItem(`continued`,`false`),document.body.style.overflowY=`hidden`}disconnectedCallback(){super.disconnectedCallback(),document.body.style.overflowY=`auto`}handleContinue(){localStorage.setItem(`continued`,`true`),localStorage.setItem(`videoCurrentTime`,`0`),localStorage.setItem(`videoLastTimestamp`,String(Date.now())),window.dispatchEvent(new CustomEvent(`intro-started`,{detail:{currentTime:0}})),this.audio||(this.audio=new Audio(`./audio/sunflower.mp3`),this.audio.loop=!0,this.audio.currentTime=0),this.audio.play(),this.classList.add(`closing`),document.body.style.overflowY=`auto`,setTimeout(()=>{this.remove()},650)}render(){return M`
+	`;audio=null;connectedCallback(){super.connectedCallback(),document.body.style.overflowY=`hidden`}disconnectedCallback(){document.body.style.overflowY=`auto`,super.disconnectedCallback()}handleContinue(){window.dispatchEvent(new CustomEvent(`intro-started`)),this.audio||(this.audio=new Audio(`./audio/sunflower.mp3`),this.audio.loop=!0,this.audio.currentTime=0),this.audio.play().catch(()=>{}),this.classList.add(`closing`),document.body.style.overflowY=`auto`,setTimeout(()=>{this.remove()},650)}render(){return M`
 			<section class="welcome-layout">
 				<section class="welcome-card">
 					<section class="welcome-image-section">
