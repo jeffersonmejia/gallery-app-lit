@@ -545,7 +545,7 @@
 				filter: blur(0);
 			}
 		}
-	`;firstUpdated(){let e=e=>this.renderRoot.getElementById(e),t=e(`name`),n=e(`email`),r=e(`msg`),i=e(`btn`),a=e(`err-name`),o=e(`err-email`),s=e(`err-msg`),c=/^[^@]+@[^@]+\.[^@]+$/;i.addEventListener(`click`,()=>{let e=!0;[t,n,r].forEach(e=>e.classList.remove(`invalid`)),[a,o,s].forEach(e=>e.style.display=`none`),t.value.trim()||(t.classList.add(`invalid`),a.style.display=`block`,e=!1),c.test(n.value.trim())||(n.classList.add(`invalid`),o.style.display=`block`,e=!1),r.value.trim()||(r.classList.add(`invalid`),s.style.display=`block`,e=!1),e&&(i.textContent=`Enviando...`,i.disabled=!0,setTimeout(()=>{i.textContent=`Enviado`,setTimeout(()=>{t.value=``,n.value=``,r.value=``,i.textContent=`Enviar`,i.disabled=!1},1200)},1500))})}render(){return M`<div class="wrapper">
+	`;firstUpdated(){let e=e=>this.renderRoot.getElementById(e),t=e(`name`),n=e(`email`),r=e(`msg`),i=e(`btn`),a=e(`err-name`),o=e(`err-email`),s=e(`err-msg`),c=/^[^@]+@[^@]+\.[^@]+$/;i.addEventListener(`click`,()=>{let e=!0;[t,n,r].forEach(e=>e.classList.remove(`invalid`)),[a,o,s].forEach(e=>e.style.display=`none`),t.value.trim()||(t.classList.add(`invalid`),a.style.display=`block`,e=!1),c.test(n.value.trim())||(n.classList.add(`invalid`),o.style.display=`block`,e=!1),r.value.trim()||(r.classList.add(`invalid`),s.style.display=`block`,e=!1),e&&(i.textContent=`Enviando...`,i.disabled=!0,setTimeout(()=>{i.textContent=`Enviado`,setTimeout(()=>{t.value=``,n.value=``,r.value=``,i.textContent=`Enviar`,i.disabled=!1},2200)},2500))})}render(){return M`<div class="wrapper">
 			<div class="image">
 				<img src="./img/movies/spider_2018.png" />
 			</div>
