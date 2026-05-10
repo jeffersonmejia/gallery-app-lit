@@ -432,165 +432,169 @@
 				</div>
 			</div>
 		`}};customElements.define(`home-page`,je);var Me=class extends R{static styles=o`
-    <style > :host {
-      display: block;
-      overflow: hidden;
-      padding: 2rem;
-      box-sizing: border-box;
-    }
-
-    .wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      max-width: 900px;
-      margin: 0 auto;
-      border-radius: 12px;
-      overflow: hidden;
-
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeIn 600ms ease-out forwards;
-    }
-
-    .image {
-      width: 100%;
-      height: 100%;
-    }
-
-    .image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .container {
-      background: var(--bg-card);
-      padding: 2rem;
-      box-sizing: border-box;
-    }
-
-    h2 {
-      margin-top: 0;
-      color: var(--fg-card);
-    }
-
-    input,
-    textarea {
-      width: 100%;
-      margin-top: 1rem;
-      padding: 0.7rem;
-      border: none;
-      border-radius: 8px;
-      font-family: inherit;
-      outline: none;
-    }
-
-    .error {
-      margin-top: 0.3rem;
-      font-size: 0.8rem;
-      color: #b00020;
-      display: none;
-    }
-
-    .invalid {
-      outline: 2px solid #b00020;
-    }
-
-    button {
-      margin-top: 1.2rem;
-      width: 100%;
-      padding: 0.8rem;
-      border: none;
-      border-radius: 8px;
-      background: var(--fg-header);
-      color: white;
-      cursor: pointer;
-      transition: opacity 200ms ease;
-    }
-
-    button:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-
-    @media (max-width: 700px) {
-      .wrapper {
-        grid-template-columns: 1fr;
-      }
-
-      .image {
-        display: none;
-      }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-        filter: blur(6px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-        filter: blur(0);
-      }
-    }
-  `;firstUpdated(){let e=e=>this.renderRoot.getElementById(e),t=e(`name`),n=e(`email`),r=e(`msg`),i=e(`btn`),a=e(`err-name`),o=e(`err-email`),s=e(`err-msg`),c=/^[^@]+@[^@]+\.[^@]+$/;i.addEventListener(`click`,()=>{let e=!0;[t,n,r].forEach(e=>e.classList.remove(`invalid`)),[a,o,s].forEach(e=>e.style.display=`none`),t.value.trim()||(t.classList.add(`invalid`),a.style.display=`block`,e=!1),c.test(n.value.trim())||(n.classList.add(`invalid`),o.style.display=`block`,e=!1),r.value.trim()||(r.classList.add(`invalid`),s.style.display=`block`,e=!1),e&&(i.textContent=`Enviando...`,i.disabled=!0,setTimeout(()=>{i.textContent=`Enviado`,setTimeout(()=>{t.value=``,n.value=``,r.value=``,i.textContent=`Enviar`,i.disabled=!1},1200)},1500))})}render(){return M`<div class="wrapper">
-      <div class="image">
-        <img src="./img/movies/spider_2018.png" />
-      </div>
-
-      <div class="container">
-        <h2>Contacto</h2>
-
-        <input id="name" type="text" placeholder="Nombre" />
-        <div id="err-name" class="error">Ingrese su nombre</div>
-
-        <input id="email" type="email" placeholder="Correo" />
-        <div id="err-email" class="error">Correo inválido</div>
-
-        <textarea id="msg" rows="4" placeholder="Mensaje"></textarea>
-        <div id="err-msg" class="error">Ingrese un mensaje</div>
-
-        <button id="btn">Enviar</button>
-      </div>
-    </div> `}};customElements.define(`contact-page`,Me);var Ne=class extends R{static styles=o`
-		:host {
+		<style > :host {
 			display: block;
 			overflow: hidden;
-			padding: 0 2rem;
+			padding: 2rem;
 			box-sizing: border-box;
 		}
 
-		.grid {
+		.wrapper {
 			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-			grid-auto-rows: 180px;
-
+			grid-template-columns: 1fr 1fr;
+			max-width: 900px;
+			margin: 0 auto;
+			border-radius: 12px;
+			overflow: hidden;
+			height: 75vh;
 			opacity: 0;
-			transform: scale(1.02);
-			animation: fadeIn 700ms ease-out forwards;
+			transform: translateY(20px);
+			animation: fadeIn 600ms ease-out forwards;
+		}
+
+		.image {
+			width: 100%;
+			height: 70%;
+		}
+
+		.image img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
+
+		.container {
+			background: var(--bg-card);
+			padding: 2rem;
+			box-sizing: border-box;
+			height: 70%;
+		}
+
+		h2 {
+			margin-top: 0;
+			color: var(--fg-card);
+		}
+
+		input,
+		textarea {
+			width: 100%;
+			margin-top: 1rem;
+			padding: 0.7rem;
+			border: none;
+			border-radius: 8px;
+			font-family: inherit;
+			outline: none;
+		}
+
+		.error {
+			margin-top: 0.3rem;
+			font-size: 0.8rem;
+			color: #b00020;
+			display: none;
+		}
+
+		.invalid {
+			outline: 2px solid #b00020;
+		}
+
+		button {
+			margin-top: 1.2rem;
+			width: 100%;
+			padding: 0.8rem;
+			border: none;
+			border-radius: 8px;
+			background: var(--fg-header);
+			color: white;
+			cursor: pointer;
+			transition: opacity 200ms ease;
+		}
+
+		button:disabled {
+			opacity: 0.7;
+			cursor: not-allowed;
+		}
+
+		@media (max-width: 700px) {
+			.wrapper {
+				grid-template-columns: 1fr;
+			}
+
+			.image {
+				display: none;
+			}
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+				transform: translateY(30px);
+				filter: blur(6px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+				filter: blur(0);
+			}
+		}
+	`;firstUpdated(){let e=e=>this.renderRoot.getElementById(e),t=e(`name`),n=e(`email`),r=e(`msg`),i=e(`btn`),a=e(`err-name`),o=e(`err-email`),s=e(`err-msg`),c=/^[^@]+@[^@]+\.[^@]+$/;i.addEventListener(`click`,()=>{let e=!0;[t,n,r].forEach(e=>e.classList.remove(`invalid`)),[a,o,s].forEach(e=>e.style.display=`none`),t.value.trim()||(t.classList.add(`invalid`),a.style.display=`block`,e=!1),c.test(n.value.trim())||(n.classList.add(`invalid`),o.style.display=`block`,e=!1),r.value.trim()||(r.classList.add(`invalid`),s.style.display=`block`,e=!1),e&&(i.textContent=`Enviando...`,i.disabled=!0,setTimeout(()=>{i.textContent=`Enviado`,setTimeout(()=>{t.value=``,n.value=``,r.value=``,i.textContent=`Enviar`,i.disabled=!1},1200)},1500))})}render(){return M`<div class="wrapper">
+			<div class="image">
+				<img src="./img/movies/spider_2018.png" />
+			</div>
+
+			<div class="container">
+				<h2>Contacto</h2>
+
+				<input id="name" type="text" placeholder="Nombre" />
+				<div id="err-name" class="error">Ingrese su nombre</div>
+
+				<input id="email" type="email" placeholder="Correo" />
+				<div id="err-email" class="error">Correo inválido</div>
+
+				<textarea id="msg" rows="4" placeholder="Mensaje"></textarea>
+				<div id="err-msg" class="error">Ingrese un mensaje</div>
+
+				<button id="btn">Enviar</button>
+			</div>
+		</div> `}};customElements.define(`contact-page`,Me);var Ne=class extends R{static styles=o`
+		:host {
+			display: grid;
+			place-items: center;
+			height: 70vh;
+			padding: 2rem;
+			box-sizing: border-box;
+			background: #ffffff;
+			overflow: hidden;
+		}
+
+		.carousel {
+			width: min(100%, 1100px);
+			overflow: hidden;
+			background: #ffffff;
+			opacity: 0;
+			transform: translateY(1rem);
+			animation: fadeIn 700ms ease forwards;
+		}
+
+		.track {
+			display: flex;
+			width: max-content;
+			animation: slide 60s linear infinite;
+		}
+
+		.group {
+			display: grid;
+			grid-template-columns: repeat(4, minmax(180px, 260px));
+			gap: 1rem;
+			padding-right: 1rem;
 		}
 
 		.card {
-			background: var(--bg-card);
-			overflow: hidden;
-			cursor: pointer;
-			transition:
-				transform 200ms ease,
-				background 200ms ease;
 			position: relative;
-			display: flex;
-		}
-
-		.card-wide {
-			grid-column: span 2;
-			grid-row: span 2;
-		}
-
-		.card-tall {
-			grid-row: span 2;
+			height: 420px;
+			overflow: hidden;
+			background: #111;
+			border-radius: 1.4rem;
 		}
 
 		.card img {
@@ -599,129 +603,92 @@
 			width: 100%;
 			height: 100%;
 			object-fit: cover;
+			filter: brightness(0.78) contrast(1.08) saturate(1.08);
 		}
 
 		.card-content {
-			position: relative;
-			margin-top: auto;
-			width: 100%;
-			padding: 0.8rem;
-			background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-			color: white;
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			padding: 1rem;
+			color: #ffffff;
+			background: linear-gradient(to top, rgba(0, 0, 0, 0.78), transparent);
 		}
 
 		h3 {
 			margin: 0;
-			font-size: 1rem;
+			font-size: 1.05rem;
+			line-height: 1;
+			letter-spacing: -0.04em;
+			text-transform: uppercase;
 		}
 
 		p {
-			margin: 0.3rem 0 0;
-			font-size: 0.8rem;
+			margin: 0.35rem 0 0;
+			font-size: 0.78rem;
+			line-height: 1.35;
+			opacity: 0.82;
 		}
 
-		@media (max-width: 700px) {
-			.card-wide {
-				grid-column: span 1;
-				grid-row: span 1;
+		@media (max-width: 900px) {
+			.group {
+				grid-template-columns: repeat(4, minmax(160px, 220px));
 			}
 
-			.card-tall {
-				grid-row: span 1;
+			.card {
+				height: 340px;
+			}
+		}
+
+		@media (max-width: 640px) {
+			:host {
+				padding: 1rem;
+			}
+
+			.group {
+				grid-template-columns: repeat(4, 72vw);
+			}
+
+			.card {
+				height: 380px;
+				border-radius: 1.1rem;
+			}
+		}
+
+		@keyframes slide {
+			from {
+				transform: translateX(0);
+			}
+			to {
+				transform: translateX(-50%);
 			}
 		}
 
 		@keyframes fadeIn {
-			from {
-				opacity: 0;
-				transform: scale(1.06);
-				filter: blur(6px);
-			}
 			to {
 				opacity: 1;
-				transform: scale(1.02);
-				filter: blur(0);
+				transform: translateY(0);
 			}
 		}
-	`;render(){return M`<div class="grid">
-			<div class="card card-wide">
-				<img src="./img/movies/spider_2004.png" />
-				<div class="card-content">
-					<h3>Eventos</h3>
-					<p>Experiencias, proyecciones y encuentros temáticos.</p>
+	`;render(){let e=[[`./img/movies/spider_2004.png`,`Eventos`,`Experiencias, proyecciones y encuentros temáticos.`],[`./img/movies/spider_2002.png`,`Películas`,`Alquiler de clásicos y estrenos seleccionados.`],[`./img/movies/spider_2007.png`,`Coleccionables`,`Figuras, pósters y piezas exclusivas.`],[`./img/movies/spider_2012.png`,`Vestimenta`,`Ropa temática inspirada en el universo Spider.`],[`./img/movies/spider_2018.png`,`Accesorios`,`Gadgets y objetos de uso diario.`],[`./img/movies/spider_2019.png`,`Ediciones`,`Contenido especial y versiones limitadas.`],[`./img/movies/spider_2026.png`,`Premium`,`Experiencia completa con beneficios superiores.`],[`./img/movies/spider_2018.png`,`Archivo`,`Material visual y referencias de colección.`]];return M`
+			<section class="carousel">
+				<div class="track">
+					<div class="group">${e.slice(0,4).map(e=>this.card(...e))}</div>
+					<div class="group">${e.slice(4,8).map(e=>this.card(...e))}</div>
+					<div class="group">${e.slice(0,4).map(e=>this.card(...e))}</div>
+					<div class="group">${e.slice(4,8).map(e=>this.card(...e))}</div>
 				</div>
-			</div>
-
-			<div class="card card-tall">
-				<img src="./img/movies/spider_2002.png" />
+			</section>
+		`}card(e,t,n){return M`
+			<article class="card">
+				<img src=${e} alt=${t} />
 				<div class="card-content">
-					<h3>Películas</h3>
-					<p>Alquiler de clásicos.</p>
+					<h3>${t}</h3>
+					<p>${n}</p>
 				</div>
-			</div>
-
-			<div class="card">
-				<img src="./img/movies/spider_2007.png" />
-				<div class="card-content">
-					<h3>Coleccionables</h3>
-					<p>Figuras exclusivas.</p>
-				</div>
-			</div>
-
-			<div class="card card-tall">
-				<img src="./img/movies/spider_2012.png" />
-				<div class="card-content">
-					<h3>Vestimenta</h3>
-					<p>Ropa temática.</p>
-				</div>
-			</div>
-
-			<div class="card">
-				<img src="./img/movies/spider_2018.png" />
-				<div class="card-content">
-					<h3>Accesorios</h3>
-					<p>Gadgets y más.</p>
-				</div>
-			</div>
-
-			<div class="card">
-				<img src="./img/movies/spider_2019.png" />
-				<div class="card-content">
-					<h3>Ediciones</h3>
-					<p>Contenido especial.</p>
-				</div>
-			</div>
-
-			<div class="card">
-				<img src="./img/movies/spider_2026.png" />
-				<div class="card-content">
-					<h3>Premium</h3>
-					<p>Experiencia completa.</p>
-				</div>
-			</div>
-
-			<div class="card">
-				<img src="./img/movies/spider_2018.png" />
-				<div class="card-content">
-					<h3>Accesorios</h3>
-					<p>Gadgets y más.</p>
-				</div>
-			</div>
-			<div class="card">
-				<img src="./img/movies/spider_2007.png" />
-				<div class="card-content">
-					<h3>Coleccionables</h3>
-					<p>Figuras exclusivas.</p>
-				</div>
-			</div>
-			<div class="card">
-				<img src="./img/movies/spider_2018.png" />
-				<div class="card-content">
-					<h3>Accesorios</h3>
-					<p>Gadgets y más.</p>
-				</div>
-			</div>
-		</div> `}};customElements.define(`services-page`,Ne);var Pe=class extends R{static styles=o`
+			</article>
+		`}};customElements.define(`services-page`,Ne);var Pe=class extends R{static styles=o`
 		:host {
 			display: block;
 			overflow: hidden;
