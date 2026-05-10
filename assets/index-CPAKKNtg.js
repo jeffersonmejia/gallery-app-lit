@@ -468,8 +468,11 @@
 		}
 
 		.container {
-			background: var(--bg-card);
 			padding: 2rem;
+			border-top: 1px solid rgb(230, 230, 230);
+			border-right: 1px solid rgb(230, 230, 230);
+			border-bottom: 1px solid rgb(230, 230, 230);
+
 			box-sizing: border-box;
 			height: 70%;
 		}
@@ -485,6 +488,8 @@
 			margin-top: 1rem;
 			padding: 0.7rem;
 			border: none;
+			border: 1px solid rgb(215, 215, 215);
+
 			border-radius: 8px;
 			font-family: inherit;
 			outline: none;
