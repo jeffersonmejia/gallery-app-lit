@@ -8,6 +8,11 @@ class MyCard extends LitElement {
 	}
 
 	static styles = css`
+		p {
+			padding: 0 1.5rem;
+			padding-bottom: 1rem;
+			margin: 0;
+		}
 		.card {
 			background-color: var(--bg-card);
 			color: var(--fg-card);
@@ -36,10 +41,6 @@ class MyCard extends LitElement {
 			border-top-left-radius: 24px;
 			border-top-right-radius: 24px;
 			object-fit: cover;
-		}
-
-		.card {
-			padding: 1rem;
 		}
 	`
 	render() {

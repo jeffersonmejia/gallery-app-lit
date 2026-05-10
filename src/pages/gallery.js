@@ -39,12 +39,6 @@ class GalleryPage extends LitElement {
 				description:
 					'Película que profundiza en el equilibrio entre la vida personal de Peter Parker y su responsabilidad como superheroe frente a Doctor Octopus',
 			},
-			{
-				src: './img/movies/spider_2002.png',
-				title: 'Spider Man, 2002',
-				description:
-					'Origen del personaje donde se presenta la transformación de Peter Parker y su primera gran prueba como heroe frente al Duende Verde',
-			},
 		]
 	}
 
@@ -135,9 +129,11 @@ class GalleryPage extends LitElement {
 		h1 {
 			grid-column: 1/-1;
 			margin: 0;
+			margin-bottom: 2rem;
 			text-align: center;
 			font-size: 2.5rem;
 		}
+
 		@media (max-width: 700px) {
 			:host {
 				padding: 16px;
@@ -154,7 +150,7 @@ class GalleryPage extends LitElement {
 	render() {
 		return html`
 			<div class="galeria">
-				<h1>Cronología</h1>
+				<h1>Misma historia, universos diferentes</h1>
 				${this.elements.map(
 					(element) => html`
 						<div class="gallery-item">

@@ -10,7 +10,7 @@ class AddressPage extends LitElement {
 		.address-cover {
 			width: 100%;
 			grid-column: 1 / -1;
-			height: 27rem;
+			height: 33.5rem;
 			object-fit: cover;
 
 			opacity: 0;
@@ -31,7 +31,7 @@ class AddressPage extends LitElement {
 	`
 
 	render() {
-		return html` <img class="address-cover" src="./img/cover_address.jpg" /> `
+		return html` <img class="address-cover" src="./img/address.gif" /> `
 	}
 }
 
