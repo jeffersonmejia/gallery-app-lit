@@ -107,45 +107,46 @@
   `;render(){return M` <footer>
       <small>Todos los derechos reservados 2026</small>
     </footer>`}};customElements.define(`my-footer`,Oe);var ke=class extends R{static properties={src:{type:String},title:{type:String},description:{type:String}};static styles=o`
-    .card {
-      background-color: var(--bg-card);
-      color: var(--fg-card);
-      margin: 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      border-radius: 24px;
-      transition:
-        background 0.3s ease,
-        transform 0.3s ease;
-      cursor: pointer;
-    }
+		.card {
+			background-color: var(--bg-card);
+			color: var(--fg-card);
+			margin: 1rem;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			border-radius: 24px;
+			transition:
+				background 0.3s ease,
+				transform 0.3s ease;
+			cursor: pointer;
+			border: 1px solid rgb(230, 230, 230);
+		}
 
-    .card:hover {
-      transform: translateY(-1rem);
-      background-color: var(--bg-card-hover);
-    }
+		.card:hover {
+			transform: translateY(-1rem);
+			background-color: var(--bg-card-hover);
+		}
 
-    .card img {
-      width: 100%;
-      height: 15rem;
-      border-top-left-radius: 24px;
-      border-top-right-radius: 24px;
-      object-fit: cover;
-    }
+		.card img {
+			width: 100%;
+			height: 12rem;
+			border-top-left-radius: 24px;
+			border-top-right-radius: 24px;
+			object-fit: cover;
+		}
 
-    .card {
-      padding: 1rem;
-    }
-  `;render(){return M` <div class="card">
-      <img src="${this.src}" />
-      <div>
-        <h3>${this.title}</h3>
-        <p>${this.description}</p>
-      </div>
-    </div>`}};customElements.define(`my-card`,ke);var Ae=class extends R{get elements(){return[{src:`./img/movies/spider_2026.png`,title:`Spider Man Brand New Day, 2026`,description:`Nueva entrega del universo cinematografico donde se plantea una etapa distinta para Peter Parker tras eventos previos que redefinen su identidad y su rol como heroe`},{src:`./img/movies/spider_2019.png`,title:`Spider Man Far From Home, 2019`,description:`Historia donde Peter Parker enfrenta amenazas internacionales mientras intenta mantener una vida normal durante un viaje escolar en Europa`},{src:`./img/movies/spider_2018.png`,title:`Spider Man Into the Spider Verse, 2018`,description:`Película animada centrada en Miles Morales que introduce el multiverso y diferentes versiones del heroe`},{src:`./img/movies/spider_2012.png`,title:`The Amazing Spider Man, 2012`,description:`Reinicio que presenta una versión más moderna del personaje explorando su pasado y su relación con Gwen Stacy junto a un enfoque más científico`},{src:`./img/movies/spider_2007.png`,title:`Spider Man 3, 2007`,description:`Entrega que desarrolla conflictos internos del protagonista al ser influenciado por el simbionte mientras enfrenta nuevos enemigos`},{src:`./img/movies/spider_2004.png`,title:`Spider Man 2, 2004`,description:`Película que profundiza en el equilibrio entre la vida personal de Peter Parker y su responsabilidad como superheroe frente a Doctor Octopus`},{src:`./img/movies/spider_2002.png`,title:`Spider Man, 2002`,description:`Origen del personaje donde se presenta la transformación de Peter Parker y su primera gran prueba como heroe frente al Duende Verde`}]}static styles=o`
+		.card {
+			padding: 1rem;
+		}
+	`;render(){return M` <div class="card">
+			<img src="${this.src}" />
+			<div>
+				<h3>${this.title}</h3>
+				<p>${this.description}</p>
+			</div>
+		</div>`}};customElements.define(`my-card`,ke);var Ae=class extends R{get elements(){return[{src:`./img/movies/spider_2026.png`,title:`Spider Man Brand New Day, 2026`,description:`Nueva entrega del universo cinematografico donde se plantea una etapa distinta para Peter Parker tras eventos previos que redefinen su identidad y su rol como heroe`},{src:`./img/movies/spider_2019.png`,title:`Spider Man Far From Home, 2019`,description:`Historia donde Peter Parker enfrenta amenazas internacionales mientras intenta mantener una vida normal durante un viaje escolar en Europa`},{src:`./img/movies/spider_2018.png`,title:`Spider Man Into the Spider Verse, 2018`,description:`Película animada centrada en Miles Morales que introduce el multiverso y diferentes versiones del heroe`},{src:`./img/movies/spider_2012.png`,title:`The Amazing Spider Man, 2012`,description:`Reinicio que presenta una versión más moderna del personaje explorando su pasado y su relación con Gwen Stacy junto a un enfoque más científico`},{src:`./img/movies/spider_2007.png`,title:`Spider Man 3, 2007`,description:`Entrega que desarrolla conflictos internos del protagonista al ser influenciado por el simbionte mientras enfrenta nuevos enemigos`},{src:`./img/movies/spider_2004.png`,title:`Spider Man 2, 2004`,description:`Película que profundiza en el equilibrio entre la vida personal de Peter Parker y su responsabilidad como superheroe frente a Doctor Octopus`},{src:`./img/movies/spider_2002.png`,title:`Spider Man, 2002`,description:`Origen del personaje donde se presenta la transformación de Peter Parker y su primera gran prueba como heroe frente al Duende Verde`}]}static styles=o`
 		:host {
 			display: block;
 			padding: 0 20px;
@@ -154,8 +155,8 @@
 
 		.galeria {
 			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-			gap: 25px;
+			grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+			gap: 0.5ren;
 			opacity: 0;
 			transform: translateY(18px);
 			animation: galleryEnter 700ms ease-out forwards;
@@ -243,7 +244,7 @@
 
 			.galeria {
 				grid-template-columns: 1fr;
-				gap: 18px;
+				gap: 0;
 			}
 		}
 	`;render(){return M`
@@ -555,157 +556,172 @@
         <button id="btn">Enviar</button>
       </div>
     </div> `}};customElements.define(`contact-page`,Me);var Ne=class extends R{static styles=o`
-    :host {
-      display: block;
-      overflow: hidden;
-      padding: 2rem;
-      box-sizing: border-box;
-    }
+		:host {
+			display: block;
+			overflow: hidden;
+			padding: 0 2rem;
+			box-sizing: border-box;
+		}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      grid-auto-rows: 180px;
-      gap: 1.2rem;
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+			grid-auto-rows: 180px;
 
-      opacity: 0;
-      transform: scale(1.02);
-      animation: fadeIn 700ms ease-out forwards;
-    }
+			opacity: 0;
+			transform: scale(1.02);
+			animation: fadeIn 700ms ease-out forwards;
+		}
 
-    .card {
-      background: var(--bg-card);
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      transition:
-        transform 200ms ease,
-        background 200ms ease;
-      position: relative;
-      display: flex;
-    }
+		.card {
+			background: var(--bg-card);
+			overflow: hidden;
+			cursor: pointer;
+			transition:
+				transform 200ms ease,
+				background 200ms ease;
+			position: relative;
+			display: flex;
+		}
 
-    .card:hover {
-      background: var(--bg-card-hover);
-      transform: translateY(-4px);
-    }
+		.card-wide {
+			grid-column: span 2;
+			grid-row: span 2;
+		}
 
-    .card-wide {
-      grid-column: span 2;
-      grid-row: span 2;
-    }
+		.card-tall {
+			grid-row: span 2;
+		}
 
-    .card-tall {
-      grid-row: span 2;
-    }
+		.card img {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
 
-    .card img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+		.card-content {
+			position: relative;
+			margin-top: auto;
+			width: 100%;
+			padding: 0.8rem;
+			background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+			color: white;
+		}
 
-    .card-content {
-      position: relative;
-      margin-top: auto;
-      width: 100%;
-      padding: 0.8rem;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-      color: white;
-    }
+		h3 {
+			margin: 0;
+			font-size: 1rem;
+		}
 
-    h3 {
-      margin: 0;
-      font-size: 1rem;
-    }
+		p {
+			margin: 0.3rem 0 0;
+			font-size: 0.8rem;
+		}
 
-    p {
-      margin: 0.3rem 0 0;
-      font-size: 0.8rem;
-    }
+		@media (max-width: 700px) {
+			.card-wide {
+				grid-column: span 1;
+				grid-row: span 1;
+			}
 
-    @media (max-width: 700px) {
-      .card-wide {
-        grid-column: span 1;
-        grid-row: span 1;
-      }
+			.card-tall {
+				grid-row: span 1;
+			}
+		}
 
-      .card-tall {
-        grid-row: span 1;
-      }
-    }
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+				transform: scale(1.06);
+				filter: blur(6px);
+			}
+			to {
+				opacity: 1;
+				transform: scale(1.02);
+				filter: blur(0);
+			}
+		}
+	`;render(){return M`<div class="grid">
+			<div class="card card-wide">
+				<img src="./img/movies/spider_2004.png" />
+				<div class="card-content">
+					<h3>Eventos</h3>
+					<p>Experiencias, proyecciones y encuentros temáticos.</p>
+				</div>
+			</div>
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(1.06);
-        filter: blur(6px);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1.02);
-        filter: blur(0);
-      }
-    }
-  `;render(){return M`<div class="grid">
-      <div class="card card-wide">
-        <img src="./img/movies/spider_2004.png" />
-        <div class="card-content">
-          <h3>Eventos</h3>
-          <p>Experiencias, proyecciones y encuentros temáticos.</p>
-        </div>
-      </div>
+			<div class="card card-tall">
+				<img src="./img/movies/spider_2002.png" />
+				<div class="card-content">
+					<h3>Películas</h3>
+					<p>Alquiler de clásicos.</p>
+				</div>
+			</div>
 
-      <div class="card card-tall">
-        <img src="./img/movies/spider_2002.png" />
-        <div class="card-content">
-          <h3>Películas</h3>
-          <p>Alquiler de clásicos.</p>
-        </div>
-      </div>
+			<div class="card">
+				<img src="./img/movies/spider_2007.png" />
+				<div class="card-content">
+					<h3>Coleccionables</h3>
+					<p>Figuras exclusivas.</p>
+				</div>
+			</div>
 
-      <div class="card">
-        <img src="./img/movies/spider_2007.png" />
-        <div class="card-content">
-          <h3>Coleccionables</h3>
-          <p>Figuras exclusivas.</p>
-        </div>
-      </div>
+			<div class="card card-tall">
+				<img src="./img/movies/spider_2012.png" />
+				<div class="card-content">
+					<h3>Vestimenta</h3>
+					<p>Ropa temática.</p>
+				</div>
+			</div>
 
-      <div class="card card-tall">
-        <img src="./img/movies/spider_2012.png" />
-        <div class="card-content">
-          <h3>Vestimenta</h3>
-          <p>Ropa temática.</p>
-        </div>
-      </div>
+			<div class="card">
+				<img src="./img/movies/spider_2018.png" />
+				<div class="card-content">
+					<h3>Accesorios</h3>
+					<p>Gadgets y más.</p>
+				</div>
+			</div>
 
-      <div class="card">
-        <img src="./img/movies/spider_2018.png" />
-        <div class="card-content">
-          <h3>Accesorios</h3>
-          <p>Gadgets y más.</p>
-        </div>
-      </div>
+			<div class="card">
+				<img src="./img/movies/spider_2019.png" />
+				<div class="card-content">
+					<h3>Ediciones</h3>
+					<p>Contenido especial.</p>
+				</div>
+			</div>
 
-      <div class="card">
-        <img src="./img/movies/spider_2019.png" />
-        <div class="card-content">
-          <h3>Ediciones</h3>
-          <p>Contenido especial.</p>
-        </div>
-      </div>
+			<div class="card">
+				<img src="./img/movies/spider_2026.png" />
+				<div class="card-content">
+					<h3>Premium</h3>
+					<p>Experiencia completa.</p>
+				</div>
+			</div>
 
-      <div class="card">
-        <img src="./img/movies/spider_2026.png" />
-        <div class="card-content">
-          <h3>Premium</h3>
-          <p>Experiencia completa.</p>
-        </div>
-      </div>
-    </div> `}};customElements.define(`services-page`,Ne);var Pe=class extends R{static styles=o`
+			<div class="card">
+				<img src="./img/movies/spider_2018.png" />
+				<div class="card-content">
+					<h3>Accesorios</h3>
+					<p>Gadgets y más.</p>
+				</div>
+			</div>
+			<div class="card">
+				<img src="./img/movies/spider_2007.png" />
+				<div class="card-content">
+					<h3>Coleccionables</h3>
+					<p>Figuras exclusivas.</p>
+				</div>
+			</div>
+			<div class="card">
+				<img src="./img/movies/spider_2018.png" />
+				<div class="card-content">
+					<h3>Accesorios</h3>
+					<p>Gadgets y más.</p>
+				</div>
+			</div>
+		</div> `}};customElements.define(`services-page`,Ne);var Pe=class extends R{static styles=o`
 		:host {
 			display: block;
 			overflow: hidden;
