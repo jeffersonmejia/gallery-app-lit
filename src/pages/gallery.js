@@ -57,8 +57,8 @@ class GalleryPage extends LitElement {
 
 		.galeria {
 			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-			gap: 25px;
+			grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+			gap: 0.5ren;
 			opacity: 0;
 			transform: translateY(18px);
 			animation: galleryEnter 700ms ease-out forwards;
@@ -146,7 +146,7 @@ class GalleryPage extends LitElement {
 
 			.galeria {
 				grid-template-columns: 1fr;
-				gap: 18px;
+				gap: 0;
 			}
 		}
 	`
