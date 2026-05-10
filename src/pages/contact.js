@@ -167,8 +167,8 @@ class ContactPage extends LitElement {
 
 					btn.textContent = 'Enviar'
 					btn.disabled = false
-				}, 1200)
-			}, 1500)
+				}, 2200)
+			}, 2500)
 		})
 	}
 
